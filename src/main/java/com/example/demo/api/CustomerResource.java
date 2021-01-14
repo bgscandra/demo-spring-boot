@@ -16,9 +16,7 @@ public class CustomerResource {
 
     @PostMapping
     public Customer addCustomer(@RequestBody Customer customer) {
-
         return customerService.addCustomer(customer);
-
     }
 
     @GetMapping

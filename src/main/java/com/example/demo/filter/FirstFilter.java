@@ -7,12 +7,11 @@ import javax.servlet.*;
 import java.io.IOException;
 
 @Component
-@Order(2)
 public class FirstFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        System.out.println("First Filter is called");
+        System.out.println("Customer API has been Accessed");
         filterChain.doFilter(servletRequest,servletResponse);
     }
 }
