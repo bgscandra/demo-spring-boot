@@ -25,35 +25,46 @@ public class CustomerResource {
 
     private static final String TOPIC = "KafkaAPI";
     private static final String USAGE_TOPIC = "KafkaUsageAPI";
+    private static DateTimeFormatter DATETIMEFORMATTER = DateTimeFormatter.ofPattern("dd-MM-YYYY HH:mm:ss");
 
     @PostMapping
     public Customer addCustomer(@RequestBody Customer customer) {
+        LocalDateTime now = LocalDateTime.now();
+        String formatDateTime = now.format(DATETIMEFORMATTER);
         kafkaTemplate.send(TOPIC, customer);
-        kafkaTemplateString.send(USAGE_TOPIC,"POST Customer API has been Accessed");
+        kafkaTemplateString.send(USAGE_TOPIC,"POST Customer API has been Accessed at :"+formatDateTime);
         return customerService.addCustomer(customer);
     }
 
     @GetMapping
     public List<Customer> getCustomers() {
-        kafkaTemplateString.send(USAGE_TOPIC,"GET Customer API has been Accessed");
+        LocalDateTime now = LocalDateTime.now();
+        String formatDateTime = now.format(DATETIMEFORMATTER);
+        kafkaTemplateString.send(USAGE_TOPIC,"GET Customer API has been Accessed at :"+formatDateTime);
         return customerService.getCustomers();
     }
 
     @GetMapping(value = "/{customerId}")
     public Customer getCustomer(@PathVariable("customerId") int customerId) {
-        kafkaTemplateString.send(USAGE_TOPIC,"GET BY ID Customer API has been Accessed");
+        LocalDateTime now = LocalDateTime.now();
+        String formatDateTime = now.format(DATETIMEFORMATTER);
+        kafkaTemplateString.send(USAGE_TOPIC,"GET BY ID Customer API has been Accessed at :"+formatDateTime);
         return customerService.getCustomer(customerId);
     }
 
     @PutMapping(value = "/{customerId}")
     public Customer updateCustomer(@PathVariable("customerId") int customerId,@RequestBody Customer customer) {
-        kafkaTemplateString.send(USAGE_TOPIC,"PUT Customer API has been Accessed");
+        LocalDateTime now = LocalDateTime.now();
+        String formatDateTime = now.format(DATETIMEFORMATTER);
+        kafkaTemplateString.send(USAGE_TOPIC,"PUT Customer API has been Accessed at :"+formatDateTime);
         return customerService.updateCustomer(customerId,customer);
     }
 
     @DeleteMapping(value = "/{customerId}")
     public void deleteCustomer(@PathVariable("customerId") int customerId) {
-        kafkaTemplateString.send(USAGE_TOPIC,"DELETE Customer API has been Accessed");
+        LocalDateTime now = LocalDateTime.now();
+        String formatDateTime = now.format(DATETIMEFORMATTER);
+        kafkaTemplateString.send(USAGE_TOPIC,"DELETE Customer API has been Accessed at :"+formatDateTime);
         customerService.deleteCustomer(customerId);
     }
 }
