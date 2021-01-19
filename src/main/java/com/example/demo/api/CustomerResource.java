@@ -2,6 +2,8 @@ package com.example.demo.api;
 
 import com.example.demo.model.Customer;
 import com.example.demo.service.CustomerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,8 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/customers")
 public class CustomerResource {
+
+    Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private CustomerService customerService;
@@ -32,7 +36,8 @@ public class CustomerResource {
         LocalDateTime now = LocalDateTime.now();
         String formatDateTime = now.format(DATETIMEFORMATTER);
         kafkaTemplate.send(TOPIC, customer);
-        kafkaTemplateString.send(USAGE_TOPIC,"POST Customer API has been Accessed at :"+formatDateTime);
+        kafkaTemplateString.send(USAGE_TOPIC,"POST Customer API has been Accessed at : "+formatDateTime);
+        log.debug("POST Customer API has been Accessed at : "+formatDateTime);
         return customerService.addCustomer(customer);
     }
 
@@ -40,7 +45,8 @@ public class CustomerResource {
     public List<Customer> getCustomers() {
         LocalDateTime now = LocalDateTime.now();
         String formatDateTime = now.format(DATETIMEFORMATTER);
-        kafkaTemplateString.send(USAGE_TOPIC,"GET Customer API has been Accessed at :"+formatDateTime);
+        kafkaTemplateString.send(USAGE_TOPIC,"GET Customer API has been Accessed at : "+formatDateTime);
+        log.debug("GET Customer API has been Accessed at : "+formatDateTime);
         return customerService.getCustomers();
     }
 
@@ -48,7 +54,8 @@ public class CustomerResource {
     public Customer getCustomer(@PathVariable("customerId") int customerId) {
         LocalDateTime now = LocalDateTime.now();
         String formatDateTime = now.format(DATETIMEFORMATTER);
-        kafkaTemplateString.send(USAGE_TOPIC,"GET BY ID Customer API has been Accessed at :"+formatDateTime);
+        kafkaTemplateString.send(USAGE_TOPIC,"GET BY ID Customer API has been Accessed at : "+formatDateTime);
+        log.debug("GET BY ID Customer API has been Accessed at : "+formatDateTime);
         return customerService.getCustomer(customerId);
     }
 
@@ -56,7 +63,8 @@ public class CustomerResource {
     public Customer updateCustomer(@PathVariable("customerId") int customerId,@RequestBody Customer customer) {
         LocalDateTime now = LocalDateTime.now();
         String formatDateTime = now.format(DATETIMEFORMATTER);
-        kafkaTemplateString.send(USAGE_TOPIC,"PUT Customer API has been Accessed at :"+formatDateTime);
+        kafkaTemplateString.send(USAGE_TOPIC,"PUT Customer API has been Accessed at : "+formatDateTime);
+        log.debug("PUT Customer API has been Accessed at : "+formatDateTime);
         return customerService.updateCustomer(customerId,customer);
     }
 
@@ -64,7 +72,8 @@ public class CustomerResource {
     public void deleteCustomer(@PathVariable("customerId") int customerId) {
         LocalDateTime now = LocalDateTime.now();
         String formatDateTime = now.format(DATETIMEFORMATTER);
-        kafkaTemplateString.send(USAGE_TOPIC,"DELETE Customer API has been Accessed at :"+formatDateTime);
+        kafkaTemplateString.send(USAGE_TOPIC,"DELETE Customer API has been Accessed at : "+formatDateTime);
+        log.warn("DELETE Customer API has been Accessed at : "+formatDateTime);
         customerService.deleteCustomer(customerId);
     }
 }
