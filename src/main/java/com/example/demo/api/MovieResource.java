@@ -32,7 +32,7 @@ public class MovieResource {
         LocalDateTime now = LocalDateTime.now();
         String formatDateTime = now.format(DATETIMEFORMATTER);
         kafkaTemplateString.send(USAGE_TOPIC,"POST Movie API has been Accessed at : "+formatDateTime);
-        log.debug("POST Movie API has been Accessed at : "+formatDateTime);
+        log.info("POST Movie API has been Accessed at : "+formatDateTime);
         return movieService.addMovie(movie);
     }
 
@@ -41,7 +41,7 @@ public class MovieResource {
         LocalDateTime now = LocalDateTime.now();
         String formatDateTime = now.format(DATETIMEFORMATTER);
         kafkaTemplateString.send(USAGE_TOPIC,"GET Movie API has been Accessed at : "+formatDateTime);
-        log.debug("GET Movie API has been Accessed at : "+formatDateTime);
+        log.info("GET Movie API has been Accessed at : "+formatDateTime);
         return movieService.getMovies();
     }
 
@@ -50,7 +50,7 @@ public class MovieResource {
         LocalDateTime now = LocalDateTime.now();
         String formatDateTime = now.format(DATETIMEFORMATTER);
         kafkaTemplateString.send(USAGE_TOPIC,"GET BY ID Movie API has been Accessed at : "+formatDateTime);
-        log.debug("GET BY ID Movie API has been Accessed at : "+formatDateTime);
+        log.info("GET BY ID Movie API has been Accessed at : "+formatDateTime);
         return movieService.getMovie(movieId);
     }
 
@@ -59,7 +59,7 @@ public class MovieResource {
         LocalDateTime now = LocalDateTime.now();
         String formatDateTime = now.format(DATETIMEFORMATTER);
         kafkaTemplateString.send(USAGE_TOPIC,"PUT Movie API has been Accessed at : "+formatDateTime);
-        log.debug("PUT Movie API has been Accessed at : "+formatDateTime);
+        log.info("PUT Movie API has been Accessed at : "+formatDateTime);
         return movieService.updateMovie(movieId,movie);
     }
 
